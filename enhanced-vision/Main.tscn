@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bpoi1ql5se2sg"]
 
-[ext_resource type="Script" uid="uid://k5kadcquijck" path="res://Scripts/FPSController.gd" id="1_1w2xm"]
+[ext_resource type="Script" uid="uid://ci7u0w1jbcqmx" path="res://addons/3d_controls_toolkit/FirstPersonControler3D.gd" id="1_3ccbu"]
 [ext_resource type="PackedScene" uid="uid://cor2yvcl5kuqq" path="res://FBX/CommonTree_1.fbx" id="1_5mkgo"]
 [ext_resource type="PackedScene" uid="uid://4wk72jobmrqb" path="res://FBX/Clover_2.fbx" id="2_3ccbu"]
 [ext_resource type="PackedScene" uid="uid://bfu7brje8ewsy" path="res://FBX/CommonTree_3.fbx" id="3_ny7u2"]
@@ -57,15 +57,17 @@ transform = Transform3D(1, 0, 0, 0, 0.6603344, 0.7509717, 0, -0.7509717, 0.66033
 transform = Transform3D(50.2744, 0, 0, 0, 1.0054879, 0, 0, 0, 50.2744, 0, 0, 0)
 mesh = SubResource("PlaneMesh_5fygx")
 
-[node name="Player" type="MeshInstance3D" parent="." unique_id=408491203]
+[node name="Player" type="MeshInstance3D" parent="." unique_id=408491203 node_paths=PackedStringArray("Custom_Camera", "Geometry")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00078368187, 0.9679544, 0.0014343262)
 mesh = SubResource("CapsuleMesh_5fygx")
+script = ExtResource("1_3ccbu")
+Custom_Camera = NodePath("Camera3D")
+Geometry = NodePath("../Ground")
 
 [node name="Camera3D" type="Camera3D" parent="Player" unique_id=16709936]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00078368187, 0.8349509, -0.0014343262)
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="Player" unique_id=936761460]
-script = ExtResource("1_1w2xm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player/CharacterBody3D" unique_id=404406198]
 shape = SubResource("CapsuleShape3D_5fygx")
@@ -139,12 +141,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.813099, 1.9073486e-06, 18
 [node name="Clue1" parent="." unique_id=368127912 instance=ExtResource("16_38apo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.443466, 1.9073486e-06, 1.5566998)
 
-[node name="Node" type="Node" parent="Clue1" unique_id=482222837]
+[node name="Node" type="Node" parent="Clue1" unique_id=482222837 node_paths=PackedStringArray("mesh")]
 script = ExtResource("18_1w2xm")
+mesh = NodePath("../MeshInstance3D")
 
-[node name="Node2" type="Node" parent="Clue1" unique_id=2100696348]
+[node name="Node2" type="Node" parent="Clue1" unique_id=2100696348 node_paths=PackedStringArray("highlighter")]
 script = ExtResource("19_gngx1")
-target_sprite = NodePath("../MeshInstance3D")
+highlighter = NodePath("../MeshInstance3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Clue1" unique_id=1371328567]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.108355045, 0)

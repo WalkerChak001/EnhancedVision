@@ -1,36 +1,40 @@
 extends Node
 
-@export var mesh_path : NodePath
+@export var mesh: MeshInstance3D
 
-var mesh : MeshInstance3D
+var original_material
+enum VisionType {
+	CLUE,
+	PUZZLE,
+	COLLECTIBLE,
+	OBJECTIVE
+}
 
 func _ready():
-	mesh = get_node(mesh_path)
+	if mesh:
+		original_material = mesh.material_override
 
 func enable_highlight(type):
-	if !mesh:
-		return
 
-	var material = StandardMaterial3D.new()
+	var mat = StandardMaterial3D.new()
 
 	match type:
-		0:
-			material.albedo_color = Color.BLUE
+		VisionType.CLUE:
+			mat.albedo_color = Color.BLUE
 
-		1:
-			material.albedo_color = Color.YELLOW
+		VisionType.PUZZLE:
+			mat.albedo_color = Color.PURPLE
 
-		2:
-			material.albedo_color = Color.GREEN
+		VisionType.COLLECTIBLE:
+			mat.albedo_color = Color.GREEN
 
-		_:
-			material.albedo_color = Color.WHITE
+		VisionType.OBJECTIVE:
+			mat.albedo_color = Color.YELLOW
 
-	material.emission_enabled = true
-	material.emission = material.albedo_color
+	mat.emission_enabled = true
+	mat.emission = mat.albedo_color
+	mat.emission_energy_multiplier = 3.0
 
-	mesh.material_override = material
-
+	mesh.material_override = mat
 func disable_highlight():
-	if mesh:
-		mesh.material_override = null
+	mesh.material_override = original_material
