@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bpoi1ql5se2sg"]
 
-[ext_resource type="Script" uid="uid://ci7u0w1jbcqmx" path="res://addons/3d_controls_toolkit/FirstPersonControler3D.gd" id="1_3ccbu"]
+[ext_resource type="Script" uid="uid://c0ofxm685p8j8" path="res://Scripts/character_controller.gd" id="1_1w2xm"]
 [ext_resource type="PackedScene" uid="uid://cor2yvcl5kuqq" path="res://FBX/CommonTree_1.fbx" id="1_5mkgo"]
 [ext_resource type="PackedScene" uid="uid://4wk72jobmrqb" path="res://FBX/Clover_2.fbx" id="2_3ccbu"]
 [ext_resource type="PackedScene" uid="uid://bfu7brje8ewsy" path="res://FBX/CommonTree_3.fbx" id="3_ny7u2"]
@@ -44,7 +44,8 @@
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_5fygx"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_5fygx"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_teaco"]
+size = Vector3(2, 1, 2)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5fygx"]
 
@@ -57,20 +58,20 @@ transform = Transform3D(1, 0, 0, 0, 0.6603344, 0.7509717, 0, -0.7509717, 0.66033
 transform = Transform3D(50.2744, 0, 0, 0, 1.0054879, 0, 0, 0, 50.2744, 0, 0, 0)
 mesh = SubResource("PlaneMesh_5fygx")
 
-[node name="Player" type="MeshInstance3D" parent="." unique_id=408491203 node_paths=PackedStringArray("Custom_Camera", "Geometry")]
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground" unique_id=390127811]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D" unique_id=1804139866]
+shape = SubResource("BoxShape3D_teaco")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=936761460]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00078368187, 0.9679544, 0.0014343262)
-mesh = SubResource("CapsuleMesh_5fygx")
-script = ExtResource("1_3ccbu")
-Custom_Camera = NodePath("Camera3D")
-Geometry = NodePath("../Ground")
+script = ExtResource("1_1w2xm")
 
-[node name="Camera3D" type="Camera3D" parent="Player" unique_id=16709936]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00078368187, 0.8349509, -0.0014343262)
-
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Player" unique_id=936761460]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/CharacterBody3D" unique_id=404406198]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=404406198]
 shape = SubResource("CapsuleShape3D_5fygx")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=16709936]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00078368187, 0.8349509, -0.0014343262)
 
 [node name="CommonTree_1" parent="." unique_id=1807365637 instance=ExtResource("1_5mkgo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.84602, 0, -2.3927927)
